@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ShowReviewWebsite.Data;
@@ -19,11 +20,24 @@ namespace ShowReviewWebsite.Pages.Shows
             _context = context;
         }
 
-        public IList<Show> Show { get;set; }
+        public IList<Show> Show { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string SearchString { get; set; }
+        public SelectList Genres { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string ShowGenre { get; set; }
 
         public async Task OnGetAsync()
         {
-            Show = await _context.Show.ToListAsync();
+            var shows = from s in _context.Show
+                        select s;
+
+            if(!string.IsNullOrEmpty(SearchString))
+            {
+                shows = shows.Where(s => s.Title.Contains(SearchString));
+            }
+
+            Show = await shows.ToListAsync();
         }
     }
 }
