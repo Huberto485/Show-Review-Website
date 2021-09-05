@@ -29,6 +29,10 @@ namespace ShowReviewWebsite.Pages.Shows
 
         public async Task OnGetAsync()
         {
+            IQueryable<string> genreQuery = from s in _context.Show
+                                            orderby s.Genre
+                                            select s.Genre;
+
             var shows = from s in _context.Show
                         select s;
 
@@ -37,6 +41,12 @@ namespace ShowReviewWebsite.Pages.Shows
                 shows = shows.Where(s => s.Title.Contains(SearchString));
             }
 
+            if(!string.IsNullOrEmpty(ShowGenre))
+            {
+                shows = shows.Where(x => x.Genre == ShowGenre);
+            }
+
+            Genres = new SelectList(await genreQuery.Distinct().ToListAsync());
             Show = await shows.ToListAsync();
         }
     }
