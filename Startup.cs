@@ -28,7 +28,7 @@ namespace ShowReviewWebsite
             services.AddRazorPages();
 
             services.AddDbContext<ShowReviewWebsiteContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("ShowReviewWebsiteContext")));
+                    options.UseSqlServer(Configuration.GetConnectionString("azureDbConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

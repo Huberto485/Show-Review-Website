@@ -10,8 +10,8 @@ using ShowReviewWebsite.Data;
 namespace ShowReviewWebsite.Migrations
 {
     [DbContext(typeof(ShowReviewWebsiteContext))]
-    [Migration("20210905163047_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210906140214_InitalCreate")]
+    partial class InitalCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,20 +28,27 @@ namespace ShowReviewWebsite.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("EpisodeNumber")
                         .HasColumnType("int");
 
                     b.Property<string>("Genre")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<decimal>("Rating")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(5,2)");
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.HasKey("ID");
 
